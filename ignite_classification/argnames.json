@@ -1,0 +1,4 @@
+{
+    "Training.num_epochs":  { "default":5 },
+    "Training.resume":  { "default":true }
+}

@@ -1,0 +1,47 @@
+{
+        "TASK": "classification",
+        "DATASET": {"DH_TYPE":"classification.data.brats.DataHelper",
+                    "PARAMS": {
+                               "partition":{
+                                            "stratified": true,
+                                            "ratios": [0.8,0.1,0.1],
+                                            "sampling": 0.3
+                                           }
+                              }
+                   },
+        "MODEL":{
+                 "MODEL_TYPE": "monai.networks.nets.densenet121",
+                 "MODEL_ARGS": {
+                                "spatial_dims":3,
+                                "in_channels":1,
+                                "out_channels":2
+                               }
+                },
+        "OPTIM":{
+                 "Criterion":"CE",
+                 "loss_args":{
+                              "reduction":"mean"
+                             },
+                 "Method":"Adam",
+                 "optim_args":{
+                               "lr":0.001
+                              },
+                 "lr_schedule": {
+                                 "active":true,
+                                 "type":"ReduceLROnPlateau",
+                                 "options":{
+                                            "factor":0.1,
+                                            "patience":5,
+                                            "threshold":10,
+                                            "threshold_mode":"abs",
+                                            "min_lr":1e-6
+                                            }
+                                }
+                },
+        "TRAINING": {
+                     "Num_epochs":1,
+                     "val_interval":1,
+                     "Batch_size":4,
+                     "resume":false
+                    }
+    }
